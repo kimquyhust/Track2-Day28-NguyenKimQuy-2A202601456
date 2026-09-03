@@ -78,6 +78,19 @@ static_resources:
           # deliberately proxied so students can see the exact degraded
           # dependency report instead of an opaque "no healthy upstream".
           http_health_check: {path: /health}
+      # Passive detection: liveness never trips on a degraded dependency, so
+      # ejecting the pod once /ready starts answering 5xx is outlier
+      # detection's job, not the active health check's.
+      outlier_detection:
+        consecutive_5xx: 3
+        interval: 1s
+        base_ejection_time: 5s
+        max_ejection_percent: 100
+        enforcing_consecutive_5xx: 100
+        # Otherwise every successful /health liveness tick (still passing,
+        # by design, while the pod is merely degraded) immediately un-ejects
+        # the host again and the passive ejection never sticks.
+        successful_active_health_check_uneject_host: false
       common_lb_config:
         healthy_panic_threshold: {value: 0}
     - name: otel_collector

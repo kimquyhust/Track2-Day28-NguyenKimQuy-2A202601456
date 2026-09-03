@@ -224,6 +224,7 @@ services:
       LAB28_VLLM_BASE_URL: ${LAB28_VLLM_BASE_URL:-http://host.docker.internal:8001/v1}
       LAB28_VLLM_MODEL_ID: ${LAB28_VLLM_MODEL_ID:-Qwen/Qwen3-1.7B}
       LAB28_VLLM_REQUIRE_REAL: ${LAB28_VLLM_REQUIRE_REAL:-false}
+      LAB28_VLLM_API_KEY: ${LAB28_VLLM_API_KEY:-}
       OTEL_SERVICE_NAME: lab28-api
     ports:
       - "${LAB28_API_PORT:-8000}:8000"
